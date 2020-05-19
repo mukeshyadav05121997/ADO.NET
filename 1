@@ -1,0 +1,42 @@
+ADO.net is microsoft technology which is used to communicate with database.
+IN sql server data provider name willbe sqlconnection
+1)SqlConnection:
+  1.Open():It search the database
+  2.close():
+2)SqlCommand:
+  1.ExecuteNonQuery: its return type is count that affected the records,it is used perform insert/update/delete.
+  2.Execute scaler: return type is single value 
+  3.ExecuteReader:This function is used to read data,its return type is dataReader object
+  using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+
+namespace ADO.net
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string connString = @"Data Source=.\SQLEXPRESS2014;Inital Catalog=Ado;Integrated Security=True;";
+                using (SqlConnection conn = new SqlConnection(connString))
+            {
+                conn.Open();
+                string sqlQuery = "select * from product";
+                SqlCommand command = new SqlCommand(sqlQuery,conn);
+                SqlDataReader reader = command.ExecuteReader();
+                while(reader.Read()==true)
+                {
+                    Int32 ID = reader.GetInt32(0);
+                    Console.WriteLine("The id is {0}",ID);
+                    Console.WriteLine("The Name is {0}",reader.GetString(1));
+
+
+                }
+            }
+            Console.ReadKey();
+        }
+    }
+}
